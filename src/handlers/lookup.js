@@ -1,5 +1,6 @@
-import { parse } from 'node-html-parser';
 const url = require('url');
+import genius from '../sites/genius'
+import azlyrics from '../sites/azlyrics'
 
 export default async request => {
   const myURL = new URL(request.url)
@@ -10,46 +11,24 @@ export default async request => {
   if (artist == null || song == null) {
     return new Response('Please specify an artist and song', { status: 400 })
   }
-  artist = artist.replaceAll(' ', '-')
-  song = song.replaceAll(' ', '-')
 
-  // genius lyrics page
-  let geniusURL = `https://genius.com/${artist}-${song}-lyrics`
-  let geniusResp = await fetch(geniusURL)
-  if (geniusResp.status >= 400) {
-    return new Response('Lyrics not found', { status: 404 })
+  let headers = {
+    'content-type': 'text/html',
   }
 
-  // resposne body
-  let geniusBody = await geniusResp.text()
+  let promises = [genius(artist, song), azlyrics(artist, song)]
 
-  // DOM tree
-  const root = parse(geniusBody)
-
-  // look for lyrics in DOM tree
-  let links = root.querySelectorAll('a.referent')
-  if (links.length == 0) {
-    return new Response('Lyrics could not be parsed', { status: 404 })
-  }
-
-  // process lyrics
-  let responseBody = new Array()
-  for (let link of links) {
-    let inner = link.innerHTML
-    inner = inner.replaceAll('<i>', '')
-    inner = inner.replaceAll('</i>', '')
-    inner = inner.trim()
-    let lines = inner.split('<br>')
-    lines = lines.filter(line => line != '')
-    for (let line of lines) {
-      responseBody.push(line.trim())
-    }
-  }
-  
-  return new Response(JSON.stringify(responseBody), {
-    status: 200,
-    headers: {
-      'content-type': 'application/json',
-    },
-  })
+  return Promise.any(promises)
+    .then(respBody => {
+      return new Response(respBody.join("\n"), {
+        status: 200,
+        header: headers,
+      })
+    })
+    .catch(e => {
+      return new Response("Not Found", {
+        status: 404,
+        header: headers,
+      })
+    })
 }
