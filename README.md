@@ -8,7 +8,7 @@ Usage: https://getlyrics-worker.huangw.workers.dev/lookup?artist={artist}&song={
 
 #### Input:
 
-Space delimited artist and song names
+artist and song as query parameters
 
 Example: `https://getlyrics-worker.huangw.workers.dev/lookup?artist=green day&song=boulevard of broken dreams`
 
