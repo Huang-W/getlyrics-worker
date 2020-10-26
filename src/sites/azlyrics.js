@@ -13,20 +13,23 @@ export default (a, s) => {
       return reject(new Error("Lyrics not found"))
     }
 
-    // resposne body
+    // response body
     let azBody = await azResp.text()
 
     // DOM tree
     const root = parse(azBody)
 
     // look for links in DOM tree
-    let lyrics = root.querySelector('div.col-xs-12.col-lg-8.text-center')["childNodes"][14].innerHTML
+    let lyrics = root.querySelector('div.col-xs-12.col-lg-8.text-center')
+                     .querySelectorAll('div')
+                     .filter(obj => obj["rawAttrs"] == "")[0]
+                     .innerHTML
     if (lyrics.length == 0) {
       console.log("length = 0?")
       return reject(new Error("Lyrics could not be parsed"))
     }
 
-    // clean text
+    // clean the text
     lyrics = lyrics.replaceAll('<i>', '')
                    .replaceAll('</i>', '')
                    .split('<br>')

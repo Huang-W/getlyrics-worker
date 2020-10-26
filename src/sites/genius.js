@@ -12,7 +12,7 @@ export default (a, s) => {
       return reject(new Error("Lyrics not found"))
     }
 
-    // resposne body
+    // response body
     let geniusBody = await geniusResp.text()
 
     // DOM tree
@@ -24,8 +24,8 @@ export default (a, s) => {
       return reject(new Error("Lyrics could not be parsed"))
     }
 
-    // clean text
-    let lyrics
+    // clean the text
+    let lyrics = new Array()
     for (let link of links) {
       let inner = link.innerHTML
       let lines = inner.replaceAll('<i>', '')
@@ -38,7 +38,7 @@ export default (a, s) => {
         lyrics.push(line)
       });
     }
-    console.log(lyrics)
+
     return resolve(lyrics)
   })
 }

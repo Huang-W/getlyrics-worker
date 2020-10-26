@@ -1,8 +1,9 @@
 const url = require('url');
 import genius from '../sites/genius'
 import azlyrics from '../sites/azlyrics'
+import lyrics from '../sites/lyrics'
 
-export default async request => {
+export default request => {
   const myURL = new URL(request.url)
 
   // query parameters
@@ -16,7 +17,7 @@ export default async request => {
     'content-type': 'text/html',
   }
 
-  let promises = [genius(artist, song), azlyrics(artist, song)]
+  let promises = [genius(artist, song), azlyrics(artist, song), lyrics(artist, song)]
 
   return Promise.any(promises)
     .then(respBody => {
