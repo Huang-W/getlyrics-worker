@@ -5,6 +5,7 @@ export default (a, s) => {
     let artist = a.replaceAll(' ', '-')
     let song = s.replaceAll(' ', '+').toLowerCase()
     const baseURL = 'https://lyrics.com'
+
     // retrieve lyrics.com artist page
     let artistURL = `${baseURL}/artist.php?name=${artist}&o=1`
     let artistResp = await fetch(artistURL)
@@ -36,6 +37,8 @@ export default (a, s) => {
         // clean up the text
         const regex = /(<a.*?>)|(<\/a>)/gi
         lyrics = lyrics.replaceAll(regex, '')
+
+        console.log("lyrics.com")
         return resolve(lyrics)
       }
     }

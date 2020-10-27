@@ -21,26 +21,24 @@ export default (a, s) => {
     const root = parse(geniusBody)
 
     // look for lyrics in DOM tree
-    let links = root.querySelectorAll('a.referent')
-    if (links.length == 0) {
+    let lyrics = root.querySelector('div.lyrics')
+                     .querySelector('p')
+                     .innerHTML
+    if (lyrics.length == 0) {
       return reject(new Error("Lyrics could not be parsed"))
     }
 
     // clean the text
-    let lyrics = new Array()
-    for (let link of links) {
-      let inner = link.innerHTML
-      let lines = inner.replaceAll('<i>', '')
-                       .replaceAll('</i>', '')
-                       .trim()
-                       .split('<br>')
-                       .map(line => line.trim())
-                       .filter(line => line != '')
-      lines.forEach((line) => {
-        lyrics.push(line)
-      });
-    }
+    const regex = /(<a[\s\S]*?>)|(<\/a>)/gi
+    lyrics = lyrics.replaceAll(regex, '')
+                   .replaceAll('<i>', '')
+                   .replaceAll('</i>', '')
+                   .trim()
+                   .split('<br>')
+                   .map(line => line.trim())
+                   .filter(line => line != '')
 
-    return resolve(lyrics)
+    console.log("genius")
+    return resolve(lyrics.join("\n"))
   })
 }

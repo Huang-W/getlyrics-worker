@@ -3,9 +3,9 @@ import { parse } from 'node-html-parser';
 export default (a, s) => {
   return new Promise(async (resolve, reject) => {
     let artist = a.replaceAll(' ', '')
-                  .replaceAll("'", '')
+                  .replaceAll(/[\W_]+/gi, '');
     let song = s.replaceAll(' ', '')
-                .replaceAll("'", '')
+                .replaceAll(/[\W_]+/gi, '');
 
     // genius lyrics page
     let azURL = `https://azlyrics.com/lyrics/${artist}/${song}.html`
@@ -37,6 +37,8 @@ export default (a, s) => {
                    .split('<br>')
                    .map(line => line.trim())
                    .filter(line => line != '')
-    return resolve(lyrics)
+
+    console.log("azlyrics")
+    return resolve(lyrics.join("\n"))
   })
 }

@@ -21,7 +21,7 @@ export default request => {
 
   return Promise.any(promises)
     .then(respBody => {
-      return new Response(respBody.join("\n"), {
+      return new Response(respBody, {
         status: 200,
         header: headers,
       })
