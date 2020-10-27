@@ -3,7 +3,9 @@ import { parse } from 'node-html-parser';
 export default (a, s) => {
   return new Promise(async (resolve, reject) => {
     let artist = a.replaceAll(' ', '')
+                  .replaceAll("'", '')
     let song = s.replaceAll(' ', '')
+                .replaceAll("'", '')
 
     // genius lyrics page
     let azURL = `https://azlyrics.com/lyrics/${artist}/${song}.html`

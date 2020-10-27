@@ -29,9 +29,11 @@ export default (a, s) => {
         let songResp = await fetch(songURL)
         let songBody = await songResp.text()
 
-        // search song page's DOM tree for lyrics
+        // song page's DOM tree
         const sroot = parse(songBody)
         let lyrics = sroot.querySelector('#lyric-body-text').innerHTML
+
+        // clean up the text
         const regex = /(<a.*?>)|(<\/a>)/gi
         lyrics = lyrics.replaceAll(regex, '')
         return resolve(lyrics)
