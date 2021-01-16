@@ -26,7 +26,7 @@ export default (a, s) => {
                      .querySelectorAll('div')
                      .filter(obj => obj["rawAttrs"] == "")[0]
                      .innerHTML
-    if (lyrics.length == 0) {
+    if (lyrics == undefined || lyrics.length == 0) {
       console.log("length = 0?")
       return reject(new Error("Lyrics could not be parsed"))
     }

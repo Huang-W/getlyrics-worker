@@ -1,6 +1,6 @@
 ### Workers APP to retrieve lyrics
 
-For personal use only
+For personal use
 
 Workers Doc: https://developers.cloudflare.com/workers/
 

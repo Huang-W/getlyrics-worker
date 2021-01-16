@@ -33,6 +33,9 @@ export default (a, s) => {
         // song page's DOM tree
         const sroot = parse(songBody)
         let lyrics = sroot.querySelector('#lyric-body-text').innerHTML
+        if (lyrics == undefined || lyrics.length == 0) {
+          return reject(new Error("Lyrics could not be parsed"))
+        }
 
         // clean up the text
         const regex = /(<a.*?>)|(<\/a>)/gi
@@ -43,6 +46,6 @@ export default (a, s) => {
       }
     }
 
-    return reject("Song not found")
+    return reject(new Error("Song not found"))
   })
 }

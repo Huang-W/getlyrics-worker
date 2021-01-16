@@ -24,7 +24,7 @@ export default (a, s) => {
     let lyrics = root.querySelector('div.lyrics')
                      .querySelector('p')
                      .innerHTML
-    if (lyrics.length == 0) {
+    if (lyrics == undefined || lyrics.length == 0) {
       return reject(new Error("Lyrics could not be parsed"))
     }
 
