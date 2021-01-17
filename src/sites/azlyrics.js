@@ -11,7 +11,7 @@ export default (a, s) => {
     let azURL = `https://azlyrics.com/lyrics/${artist}/${song}.html`
     let azResp = await fetch(azURL)
     if (azResp.status >= 400) {
-      console.log(azResp.status)
+      console.log("az:" + azResp.status)
       return reject(new Error("Lyrics not found"))
     }
 

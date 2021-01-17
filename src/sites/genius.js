@@ -11,6 +11,7 @@ export default (a, s) => {
     let geniusURL = `https://genius.com/${artist}-${song}-lyrics`
     let geniusResp = await fetch(geniusURL)
     if (geniusResp.status >= 400) {
+      console.log("gn:" + geniusResp.status)
       return reject(new Error("Lyrics not found"))
     }
 

@@ -10,7 +10,7 @@ export default (a, s) => {
     let artistURL = `${baseURL}/artist.php?name=${artist}&o=1`
     let artistResp = await fetch(artistURL)
     if (artistResp.status >= 300) {
-      console.log(artistResp.status)
+      console.log("ly:" + artistResp.status)
       return reject(new Error("Artist not found"))
     }
 
@@ -19,8 +19,12 @@ export default (a, s) => {
     const root = parse(artistBody)
 
     // look for songs in DOM tree
-    let rows = root.querySelector('tbody')["childNodes"]
-    for (let row of rows) {
+    let tbody = root.querySelector('tbody')
+    if (tbody == null) {
+      console.log("no songs")
+      return reject(new Error("No songs found"))
+    }
+    for (let row of tbody["childNodes"]) {
       let url = row.firstChild.querySelector('a')["rawAttrs"]
       url = url.substring(6,url.length-1).toLowerCase()
 
@@ -45,7 +49,7 @@ export default (a, s) => {
         return resolve(lyrics)
       }
     }
-
+    console.log("lyrics.com reject")
     return reject(new Error("Song not found"))
   })
 }

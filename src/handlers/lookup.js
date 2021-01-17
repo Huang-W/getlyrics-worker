@@ -14,7 +14,7 @@ export default request => {
   }
 
   let headers = {
-    'content-type': 'text/html',
+    'content-type': 'text/plain',
   }
 
   let promises = [genius(artist, song), azlyrics(artist, song), lyrics(artist, song)]
