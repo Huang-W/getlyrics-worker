@@ -17,7 +17,7 @@ export default request => {
     'content-type': 'text/plain',
   }
 
-  let promises = [genius(artist, song), azlyrics(artist, song), lyrics(artist, song)]
+  let promises = [azlyrics(artist, song)]
 
   return Promise.any(promises)
     .then(respBody => {
@@ -28,8 +28,8 @@ export default request => {
     })
     .catch(e => {
       return new Response("Not Found", {
-        status: 404,
-        header: headers,
-      })
+          status: 404,
+          header: headers,
+        })
     })
 }

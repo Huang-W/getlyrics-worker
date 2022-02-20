@@ -11,10 +11,11 @@ export default (a, s) => {
     let artistResp = await fetch(artistURL)
     if (artistResp.status >= 300) {
       console.log("ly:" + artistResp.status)
-      return reject(new Error("Artist not found"))
+      reject("Artist not found")
     }
 
     // artist page body and DOM tree
+    console.log(artistResp)
     let artistBody = await artistResp.text()
     const root = parse(artistBody)
 
@@ -22,7 +23,7 @@ export default (a, s) => {
     let tbody = root.querySelector('tbody')
     if (tbody == null) {
       console.log("no songs")
-      return reject(new Error("No songs found"))
+      reject("No songs found")
     }
     for (let row of tbody["childNodes"]) {
       let url = row.firstChild.querySelector('a')["rawAttrs"]
@@ -38,7 +39,7 @@ export default (a, s) => {
         const sroot = parse(songBody)
         let lyrics = sroot.querySelector('#lyric-body-text').innerHTML
         if (lyrics == undefined || lyrics.length == 0) {
-          return reject(new Error("Lyrics could not be parsed"))
+          reject("Lyrics could not be parsed")
         }
 
         // clean up the text
@@ -46,10 +47,10 @@ export default (a, s) => {
         lyrics = lyrics.replaceAll(regex, '')
 
         console.log("lyrics.com")
-        return resolve(lyrics)
+        resolve(lyrics)
       }
     }
     console.log("lyrics.com reject")
-    return reject(new Error("Song not found"))
+    reject(new Error("Song not found"))
   })
 }

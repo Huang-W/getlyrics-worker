@@ -12,7 +12,7 @@ export default (a, s) => {
     let azResp = await fetch(azURL)
     if (azResp.status >= 400) {
       console.log("az:" + azResp.status)
-      return reject(new Error("Lyrics not found"))
+      reject("Lyrics not found")
     }
 
     // response body
@@ -28,7 +28,7 @@ export default (a, s) => {
                      .innerHTML
     if (lyrics == undefined || lyrics.length == 0) {
       console.log("length = 0?")
-      return reject(new Error("Lyrics could not be parsed"))
+      reject("Lyrics could not be parsed")
     }
 
     // clean the text
@@ -39,6 +39,6 @@ export default (a, s) => {
                    .filter(line => line != '')
 
     console.log("azlyrics")
-    return resolve(lyrics.join("\n"))
+    resolve(lyrics.join("\n"))
   })
 }

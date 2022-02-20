@@ -12,7 +12,7 @@ export default (a, s) => {
     let geniusResp = await fetch(geniusURL)
     if (geniusResp.status >= 400) {
       console.log("gn:" + geniusResp.status)
-      return reject(new Error("Lyrics not found"))
+      reject("Lyrics not found")
     }
 
     // response body
@@ -26,7 +26,7 @@ export default (a, s) => {
                      .querySelector('p')
                      .innerHTML
     if (lyrics == undefined || lyrics.length == 0) {
-      return reject(new Error("Lyrics could not be parsed"))
+      reject("Lyrics could not be parsed")
     }
 
     // clean the text
@@ -40,6 +40,6 @@ export default (a, s) => {
                    .filter(line => line != '')
 
     console.log("genius")
-    return resolve(lyrics.join("\n"))
+    resolve(lyrics.join("\n"))
   })
 }
